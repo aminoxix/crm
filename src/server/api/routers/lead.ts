@@ -46,7 +46,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const leadFieldStructure = await ctx.db.leadFieldStructure.findUnique({
+      const leadFieldStructure = await ctx.db.crmLeadFieldStructure.findUnique({
         where: { crmListId: input.crmListId },
         include: { customFields: true },
       });
@@ -157,7 +157,7 @@ export const leadRouter = createTRPCRouter({
             customFieldsData.push({ fieldName, fieldValue });
           }
         }
-        const createdLead = await ctx.db.lead.create({
+        const createdLead = await ctx.db.crmLead.create({
           data: {
             firstName: input.firstName,
             lastName: input.lastName,
@@ -192,7 +192,7 @@ export const leadRouter = createTRPCRouter({
         };
       }
 
-      const createdLead = await ctx.db.lead.create({
+      const createdLead = await ctx.db.crmLead.create({
         data: {
           firstName: input.firstName,
           lastName: input.lastName,
@@ -281,7 +281,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const leadFieldStructure = await ctx.db.leadFieldStructure.findUnique({
+      const leadFieldStructure = await ctx.db.crmLeadFieldStructure.findUnique({
         where: { crmListId: input.crmListId },
         include: { customFields: true },
       });
@@ -394,7 +394,7 @@ export const leadRouter = createTRPCRouter({
           }
         }
 
-        const currentLeadData = await ctx.db.lead.findUnique({
+        const currentLeadData = await ctx.db.crmLead.findUnique({
           where: { id: input.leadId },
         });
 
@@ -538,13 +538,13 @@ export const leadRouter = createTRPCRouter({
             addChangeToTimeline(fieldName, currentCustomValue, updatedValue);
           }
         }
-        await ctx.db.leadTimeline.create({
+        await ctx.db.crmLeadTimeline.create({
           data: {
             changedInformation: JSON.stringify(changedInformation),
             leadId: input.leadId,
           },
         });
-        const updatedLead = await ctx.db.lead.update({
+        const updatedLead = await ctx.db.crmLead.update({
           where: {
             id: input.leadId,
           },
@@ -583,7 +583,7 @@ export const leadRouter = createTRPCRouter({
           data: updatedLead,
         };
       }
-      const currentLeadData = await ctx.db.lead.findUnique({
+      const currentLeadData = await ctx.db.crmLead.findUnique({
         where: { id: input.leadId },
       });
 
@@ -710,13 +710,13 @@ export const leadRouter = createTRPCRouter({
       addChangeToTimeline("End Date", currentLeadData.endDate, input.endDate);
       addChangeToTimeline("Status", currentLeadData.status, input.status);
       addChangeToTimeline("Notes", currentLeadData.notes, input.notes);
-      await ctx.db.leadTimeline.create({
+      await ctx.db.crmLeadTimeline.create({
         data: {
           changedInformation: JSON.stringify(changedInformation),
           leadId: input.leadId,
         },
       });
-      const updatedLead = await ctx.db.lead.update({
+      const updatedLead = await ctx.db.crmLead.update({
         where: {
           id: input.leadId,
         },
@@ -756,7 +756,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedLead = await ctx.db.lead.delete({
+      const deletedLead = await ctx.db.crmLead.delete({
         where: { id: input.leadId },
       });
 
@@ -776,7 +776,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const lead = await ctx.db.lead.findUnique({
+      const lead = await ctx.db.crmLead.findUnique({
         where: { id: input.leadId },
         include: {
           leadTimeline: true,
@@ -812,7 +812,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const leadData = await ctx.db.lead.findUnique({
+      const leadData = await ctx.db.crmLead.findUnique({
         where: {
           id: input.leadId,
         },
@@ -826,7 +826,7 @@ export const leadRouter = createTRPCRouter({
         throw new TRPCClientError("Lead not found.");
       }
 
-      const updatedLead = await ctx.db.lead.update({
+      const updatedLead = await ctx.db.crmLead.update({
         where: {
           id: input.leadId,
         },
@@ -888,7 +888,7 @@ export const leadRouter = createTRPCRouter({
         }
       };
       addChangeToTimeline("Status", leadData.status, input.status);
-      await ctx.db.leadTimeline.create({
+      await ctx.db.crmLeadTimeline.create({
         data: {
           changedInformation: JSON.stringify(changedInformation),
           leadId: input.leadId,
@@ -904,7 +904,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      return await ctx.db.lead.findUnique({
+      return await ctx.db.crmLead.findUnique({
         where: {
           id: input.id,
         },
@@ -918,7 +918,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const leads = await ctx.db.lead.findMany({
+      const leads = await ctx.db.crmLead.findMany({
         where: { crmListId: input.crmListId },
       });
 
@@ -933,7 +933,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const leads = await ctx.db.lead.findMany({
+      const leads = await ctx.db.crmLead.findMany({
         where: { crmListId: input.crmListId },
       });
 
@@ -948,7 +948,7 @@ export const leadRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedLeads = await ctx.db.lead.deleteMany({
+      const deletedLeads = await ctx.db.crmLead.deleteMany({
         where: { id: { in: input.leadIdsArray } },
       });
 

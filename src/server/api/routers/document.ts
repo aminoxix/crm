@@ -12,7 +12,7 @@ export const leadDocumentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.leadDocument.create({
+      await ctx.db.crmLeadDocument.create({
         data: {
           name: input.name,
           type: input.type,
@@ -36,7 +36,7 @@ export const leadDocumentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.leadDocument.delete({
+      await ctx.db.crmLeadDocument.delete({
         where: {
           id: input.id,
         },
@@ -53,7 +53,7 @@ export const leadDocumentRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const documents = await ctx.db.leadDocument.findMany({
+      const documents = await ctx.db.crmLeadDocument.findMany({
         where: {
           leadId: input.leadId,
         },
@@ -67,7 +67,7 @@ export const leadDocumentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const document = await ctx.db.leadDocument.findUnique({
+      const document = await ctx.db.crmLeadDocument.findUnique({
         where: {
           id: input.documentId,
         },

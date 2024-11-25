@@ -1,6 +1,6 @@
+import { TRPCClientError } from "@trpc/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { TRPCClientError } from "@trpc/client";
 
 export const communicationRouter = createTRPCRouter({
   addEmail: publicProcedure
@@ -15,7 +15,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.communicationEmail.create({
+      await ctx.db.crmCommunicationEmail.create({
         data: {
           to: input.to,
           from: input.from,
@@ -41,7 +41,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedEmail = await ctx.db.communicationEmail.delete({
+      const deletedEmail = await ctx.db.crmCommunicationEmail.delete({
         where: { id: input.emailId },
       });
 
@@ -61,7 +61,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const emails = await ctx.db.communicationEmail.findMany({
+      const emails = await ctx.db.crmCommunicationEmail.findMany({
         where: {
           leadId: input.leadId,
         },
@@ -75,7 +75,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const email = await ctx.db.communicationEmail.findUnique({
+      const email = await ctx.db.crmCommunicationEmail.findUnique({
         where: {
           id: input.emailId,
         },
@@ -89,7 +89,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const emails = await ctx.db.communicationSms.findMany({
+      const emails = await ctx.db.crmCommunicationSms.findMany({
         where: {
           leadId: input.leadId,
         },
@@ -103,7 +103,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const emails = await ctx.db.communicationCall.findMany({
+      const emails = await ctx.db.crmCommunicationCall.findMany({
         where: {
           leadId: input.leadId,
         },
@@ -120,7 +120,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.communicationSms.create({
+      await ctx.db.crmCommunicationSms.create({
         data: {
           from: input.from,
           message: input.message,
@@ -143,7 +143,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedSms = await ctx.db.communicationSms.delete({
+      const deletedSms = await ctx.db.crmCommunicationSms.delete({
         where: { id: input.smsId },
       });
 
@@ -163,7 +163,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const sms = await ctx.db.communicationSms.findUnique({
+      const sms = await ctx.db.crmCommunicationSms.findUnique({
         where: {
           id: input.smsId,
         },
@@ -186,7 +186,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.communicationCall.create({
+      await ctx.db.crmCommunicationCall.create({
         data: {
           platform: input.platform,
           topic: input.topic,
@@ -215,7 +215,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const call = await ctx.db.communicationCall.findUnique({
+      const call = await ctx.db.crmCommunicationCall.findUnique({
         where: {
           id: input.callId,
         },
@@ -229,7 +229,7 @@ export const communicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedCall = await ctx.db.communicationCall.delete({
+      const deletedCall = await ctx.db.crmCommunicationCall.delete({
         where: { id: input.callId },
       });
 

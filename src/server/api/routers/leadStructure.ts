@@ -1,6 +1,6 @@
+import { TRPCClientError } from "@trpc/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { TRPCClientError } from "@trpc/client";
 export const leadFieldStructureRouter = createTRPCRouter({
   addLeadFieldStructure: publicProcedure
     .input(
@@ -51,7 +51,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.leadFieldStructure.create({
+      await ctx.db.crmLeadFieldStructure.create({
         data: {
           firstName: input.firstName,
           firstNameRequired: input.firstNameRequired,
@@ -96,7 +96,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
         },
       });
       input.customFields.map(async (customField) => {
-        return await ctx.db.customField.create({
+        return await ctx.db.crmCustomField.create({
           data: {
             fieldName: customField.fieldName,
             fieldType: customField.fieldType,
@@ -163,14 +163,15 @@ export const leadFieldStructureRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const existingLeadStructure = await ctx.db.leadFieldStructure.findUnique({
-        where: { crmListId: input.crmListId },
-        include: { customFields: true },
-      });
+      const existingLeadStructure =
+        await ctx.db.crmLeadFieldStructure.findUnique({
+          where: { crmListId: input.crmListId },
+          include: { customFields: true },
+        });
       if (!existingLeadStructure) {
         throw new TRPCClientError("Lead structure not found!");
       }
-      await ctx.db.leadFieldStructure.update({
+      await ctx.db.crmLeadFieldStructure.update({
         where: { crmListId: input.crmListId },
         data: {
           firstName:
@@ -311,7 +312,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
             (field) => field.fieldName === customField.fieldName,
           );
           if (existingCustomField) {
-            await ctx.db.customField.update({
+            await ctx.db.crmCustomField.update({
               where: { id: existingCustomField.id },
               data: {
                 fieldType:
@@ -333,7 +334,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
               },
             });
           } else {
-            await ctx.db.customField.create({
+            await ctx.db.crmCustomField.create({
               data: {
                 fieldName: customField.fieldName,
                 fieldType: customField.fieldType,
@@ -360,7 +361,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const leadFieldStructure = await ctx.db.leadFieldStructure.findUnique({
+      const leadFieldStructure = await ctx.db.crmLeadFieldStructure.findUnique({
         where: {
           crmListId: input.crmListId,
         },
@@ -377,7 +378,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const deletedCustomField = await ctx.db.customField.delete({
+      const deletedCustomField = await ctx.db.crmCustomField.delete({
         where: {
           id: input.customFieldId,
         },
@@ -405,7 +406,7 @@ export const leadFieldStructureRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.customField.update({
+      await ctx.db.crmCustomField.update({
         where: {
           id: input.customFieldId,
         },
