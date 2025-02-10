@@ -8,7 +8,7 @@ this is a [custom relationship management](https://crm-for-org.vercel.app) syste
 
 ## ⚙️ stack played well
 
-[![Next.js](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org) [![Clerk](https://img.shields.io/badge/Clerk-5F31FF?style=for-the-badge&logo=nextauth&logoColor=white)](https://next-auth.js.org) [![Prisma ORM](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://orm.drizzle.team) [![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com) [![tRPC](https://img.shields.io/badge/tRPC-%232596BE.svg?style=for-the-badge&logo=tRPC&logoColor=white) ](https://trpc.io)
+[![Next.js](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org) [![Golang]([https://img.shields.io/badge/Clerk-5F31FF?style=for-the-badge&logo=nextauth&logoColor=white](https://img.shields.io/badge/golang-00ADD8?&style=plastic&logo=go&logoColor=white))](https://golang.org) [![Prisma ORM](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://orm.drizzle.team) [![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com) [![tRPC](https://img.shields.io/badge/tRPC-%232596BE.svg?style=for-the-badge&logo=tRPC&logoColor=white) ](https://trpc.io)
 
 ## 🛠 building
 
