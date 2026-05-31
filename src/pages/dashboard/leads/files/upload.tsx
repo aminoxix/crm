@@ -4,7 +4,6 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import LeadsLayout from "~/ui/layout/lead-layout";
 import MainLayout from "~/ui/layout/main-layout";
 
-import axios from "axios";
 import { useBreadcrumbStore, useLeadStore } from "~/store";
 import { api } from "~/utils/api";
 
@@ -96,32 +95,30 @@ export default function Upload() {
     }
 
     try {
-      const response = await axios.post("/api/upload-file", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-        path: `${leadId}/${form.values.name}/${
-          form.values.fileType === "PNG" ||
-          form.values.fileType === "JPEG" ||
-          form.values.fileType === "JPG"
-            ? "images"
-            : "files"
-        }`,
-        fileType: getFileExtension(file.name),
-        fileName: `${form.values.name}-${Math.floor(Math.random() * 100000)}`,
+      const response = await fetch("/api/upload-file", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: `${leadId}/${form.values.name}/${
+            form.values.fileType === "PNG" ||
+            form.values.fileType === "JPEG" ||
+            form.values.fileType === "JPG"
+              ? "images"
+              : "files"
+          }`,
+          fileType: getFileExtension(file.name),
+          fileName: `${form.values.name}-${Math.floor(Math.random() * 100000)}`,
+        }),
       });
 
-      const { data } = response;
+      const data = (await response.json()) as { preSignedUrl: string };
 
-      const res = await axios.put(data.preSignedUrl as string, file, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          mode: "no-cors",
-        },
+      await fetch(data.preSignedUrl, {
+        method: "PUT",
+        body: file,
       });
 
-      setFileUrl(res.config.url?.split("?")[0] as string);
+      setFileUrl(data.preSignedUrl.split("?")[0] as string);
     } catch (error) {
       console.error("Error getting presigned URL or uploading file:", error);
     }
